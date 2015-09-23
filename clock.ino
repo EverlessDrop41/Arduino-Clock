@@ -28,8 +28,6 @@ byte currentHours = 23;
 byte currentDayIndex = 5;
 
 void UpdateTime () {
-  currentSecs++;
-
   if (currentSecs >= SEC_IN_MIN) {
     currentSecs = 0;
     currentMins++;
@@ -50,6 +48,11 @@ void UpdateTime () {
   }
 }
 
+void OnSecond () {
+  currentSecs++;
+  UpdateTime();
+}
+
 void lcdClear() {
   lcd.clear();
   lcd.setCursor(0,0);
@@ -68,7 +71,7 @@ void setup()
 
 void loop()
 {
-  UpdateTime();
+  OnSecond();
   //Update Diplay
   lcdClear();
   lcd.print(dayToString[currentDayIndex]);
