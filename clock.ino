@@ -61,9 +61,9 @@ void lcdClear() {
 void setup()
 {
   pinMode(DAY_BTN_PIN,  INPUT);
-  PinMode(HOUR_BTN_PIN, INPUT);
-  PinMode(MIN_BTN_PIN,  INPUT);
-  PinMode(SEC_BTN_PIN,  INPUT);
+  pinMode(HOUR_BTN_PIN, INPUT);
+  pinMode(MIN_BTN_PIN,  INPUT);
+  pinMode(SEC_BTN_PIN,  INPUT);
 
   lcd.begin(16, 2);
   lcd.print("Setup Func");
@@ -81,4 +81,3 @@ void loop()
   //Delay for timing
   delay(TIMESTEP);
 }
-
