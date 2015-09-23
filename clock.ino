@@ -1,6 +1,11 @@
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
+const byte DAY_BTN_PIN = 6;
+const byte HOUR_BTN_PIN = 7;
+const byte MIN_BTN_PIN = 8;
+const byte SEC_BTN_PIN = 9;
+
 const int TIMESTEP = 1000; //delay between each update
 const byte SEC_IN_MIN = 60;
 const byte MIN_IN_HOUR = 60;
@@ -52,6 +57,11 @@ void lcdClear() {
 
 void setup()
 {
+  pinMode(DAY_BTN_PIN,  INPUT);
+  PinMode(HOUR_BTN_PIN, INPUT);
+  PinMode(MIN_BTN_PIN,  INPUT);
+  PinMode(SEC_BTN_PIN,  INPUT);
+
   lcd.begin(16, 2);
   lcd.print("Setup Func");
 }
