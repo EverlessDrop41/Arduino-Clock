@@ -6,7 +6,7 @@ const byte HOUR_BTN_PIN = 7;
 const byte MIN_BTN_PIN = 8;
 const byte SEC_BTN_PIN = 9;
 
-int previousTimestep = 0;
+unsigned long previousTimestep = 0;
 
 const int TIMESTEP = 1000; //delay between each update
 const byte SEC_IN_MIN = 60;
@@ -79,10 +79,14 @@ void setup()
   lcd.print("Setup Func");
 }
 
+unsigned long currentMillis = 0;
+
 void loop()
 {
-  if (millis() - previousTimestep > TIMESTEP) {
-    previousTimestep = millis();
+  currentMillis = millis();
+
+  if (currentMillis - previousTimestep > TIMESTEP) {
+    previousTimestep = currentMillis;
     OnSecond();
     PrintToLCD();
   }
