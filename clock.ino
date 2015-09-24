@@ -6,6 +6,8 @@ const byte HOUR_BTN_PIN = 7;
 const byte MIN_BTN_PIN = 8;
 const byte SEC_BTN_PIN = 9;
 
+int previousTimestep = 0;
+
 const int TIMESTEP = 1000; //delay between each update
 const byte SEC_IN_MIN = 60;
 const byte MIN_IN_HOUR = 60;
@@ -58,6 +60,14 @@ void lcdClear() {
   lcd.setCursor(0,0);
 }
 
+void PrintToLCD() {
+  lcdClear();
+  lcd.print(dayToString[currentDayIndex]);
+  lcd.setCursor(0,1);
+  String s = String(currentHours) + String(':') + String(currentMins) + String(':') + String(currentSecs);
+  lcd.print(s);
+}
+
 void setup()
 {
   pinMode(DAY_BTN_PIN,  INPUT);
@@ -71,13 +81,9 @@ void setup()
 
 void loop()
 {
-  OnSecond();
-  //Update Diplay
-  lcdClear();
-  lcd.print(dayToString[currentDayIndex]);
-  lcd.setCursor(0,1);
-  String s = String(currentHours) + String(':') + String(currentMins) + String(':') + String(currentSecs);
-  lcd.print(s);
-  //Delay for timing
-  delay(TIMESTEP);
+  if (millis() - previousTimestep > TIMESTEP) {
+    previousTimestep = millis();
+    OnSecond();
+    PrintToLCD();
+  }
 }
