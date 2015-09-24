@@ -68,6 +68,38 @@ void PrintToLCD() {
   lcd.print(s);
 }
 
+bool prevDay, prevMin, prevHour, prevSec;
+
+void HandleButtons() {
+  bool ChangeDay = digitalRead(DAY_BTN_PIN);
+  bool ChangeMin = digitalRead(MIN_BTN_PIN);
+  bool ChangeHour = digitalRead(HOUR_BTN_PIN);
+  bool ChangeSec = digitalRead(SEC_BTN_PIN);
+
+  if (ChangeDay && !prevDay) {
+    currentDayIndex++;
+  }
+
+  if (ChangeHour && !prevHour) {
+    currentHours++;
+  }
+
+  if (ChangeMin && !prevMin) {
+    currentMins++;
+  }
+
+  if (ChangeSec && !prevSec) {
+    currentSecs++;
+  }
+
+  UpdateTime();
+
+  prevDay = ChangeDay;
+  prevHour = ChangeHour;
+  prevMin = ChangeMin;
+  prevSec = ChangeSec;
+}
+
 void setup()
 {
   pinMode(DAY_BTN_PIN,  INPUT);
@@ -83,11 +115,13 @@ unsigned long currentMillis = 0;
 
 void loop()
 {
-  currentMillis = millis();
+  HandleButtons();
 
+  currentMillis = millis();
   if (currentMillis - previousTimestep > TIMESTEP) {
     previousTimestep = currentMillis;
     OnSecond();
-    PrintToLCD();
   }
+
+  PrintToLCD();
 }
