@@ -7,7 +7,9 @@ const byte MIN_BTN_PIN = 8;
 const byte SEC_BTN_PIN = 9;
 
 unsigned long previousTimestep = 0;
+unsigned long previousLCDTimestep = 0;
 
+const int LCD_TIMESTEP = 10;
 const int TIMESTEP = 1000; //delay between each update
 const byte SEC_IN_MIN = 60;
 const byte MIN_IN_HOUR = 60;
@@ -123,5 +125,9 @@ void loop()
     OnSecond();
   }
 
-  PrintToLCD();
+  if (currentMillis - previousLCDTimestep > TIMESTEP) {
+    previousLCDTimestep = currentMillis;
+    PrintToLCD();
+  }
 }
+
